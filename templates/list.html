@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+    </head>
+    <body>
+
+        <table border = 1>
+            <thead>
+                <td>Filename Base</td>
+                <td>Filename</td>
+                <td>Pos X</td>
+                <td>Pos Y</td>
+                <td>Pos Z</td>
+                <td>Verify Pos X</td>
+                <td>Verify Pos Y</td>
+                <td>Verify Pos Z</td>
+            </thead>
+
+            {% for row in rows %}
+            <tr>
+                <td>{{row["filename_base"]}}</td>
+                <td>{{row["filename"]}}</td>
+                <td>{{row["pos_x"]}}</td>
+                <td>{{row['pos_y']}}</td>
+                <td>{{row['pos_z']}}</td>
+                <td>{{ row["verify_pos_x"]}}</td>
+                <td>{{row['verify_pos_y']}}</td>
+                <td>{{row['verify_pos_z']}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <br><br>
+        <table border = 1>
+            <thead>
+                <td>orig_filename</td>
+                <td>new_filename</td>
+                <td>orig_pos_x</td>
+                <td>orig_pos_y</td>
+                <td>orig_pos_z</td>
+                <td>new_pos_x</td>
+                <td>new_pos_y</td>
+                <td>new_pos_z</td>
+            </thead>
+
+            {% for verified_row in verified_rows %}
+            <tr>
+                <td>{{verified_row["orig_filename"]}}</td>
+                <td>{{verified_row["new_filename"]}}</td>
+                <td>{{verified_row["orig_pos_x"]}}</td>
+                <td>{{verified_row['orig_pos_y']}}</td>
+                <td>{{verified_row['orig_pos_z']}}</td>
+                <td>{{verified_row["new_pos_x"]}}</td>
+                <td>{{verified_row['new_pos_y']}}</td>
+                <td>{{verified_row['new_pos_z']}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <br><br>
+
+        <br>
+        <a href = "/">Go back to home page</a>
+        <br>
+        <a href = "\apex">enter data for images</a>
+
+
+    </body>
+</html>
