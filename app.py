@@ -7,13 +7,18 @@ app = Flask(__name__)
 
 @app.route('/')
 def home():
-    return render_template('home.html')
+    img_url = "home_example.png"
+    return render_template('home.html', data=img_url)
 
 
 @app.route('/apex')
 def new_verification():
-    # select a random image from the db of unverified images
-    con = sql.connect('images_database.db')
+    # select a random image from the db of unverified images_test
+    try:
+        con = sql.connect('images_database.db')
+    except sql.Error as error:
+        app.logger("error connecting to sql db: " + error)
+        print("")
     cur = con.cursor()
     sqlite_select_query = """SELECT * from apex_images"""
     cur.execute(sqlite_select_query)
@@ -21,8 +26,8 @@ def new_verification():
     selected_img = random.choice(apex_images_data)
 
     # create an url using the selected data's filename that matches a stored image's name
-    # currently images are stored locally in 'static/images/'
-    # TODO: figure out strategy for dealing with some 15k+ images ie. hosted (aws?), locally in static assets, provide images in smaller batches/sets?
+    # currently images_test are stored locally in 'static/images_test/'
+    # TODO: figure out strategy for dealing with some 15k+ images_test ie. hosted (aws?), locally in static assets, provide images_test in smaller batches/sets?
     img_url_prefix = ""
     img_url_suffix = ".png"
     img_url = img_url_prefix + str(selected_img[1]) + img_url_suffix
@@ -57,7 +62,7 @@ def update():
 
     if request.method == 'POST':
         try:
-            msg = "tried to update db with user input data"
+            msg = "recived submit of user input data"
             print(msg)
             _filename = request.form['_filename']
             _filename_base = request.form['_fname']
@@ -86,7 +91,7 @@ def update():
                 _orig_pos_y = request.form['orig_pos_y']
                 _orig_pos_z = request.form['orig_pos_z']
 
-                # add verified data to verified images data base
+                # add verified data to verified images_test data base
                 # include the orig and new filename along with the orig and new x,y,z values
                 try:
                     cur.execute('INSERT INTO verified_apex_images VALUES(?,?,?,?,?,?,?,?);', (_filename, _new_filename, _orig_pos_x, _orig_pos_y, _orig_pos_z, _pos_x, _pos_y, _pos_z))
@@ -97,11 +102,13 @@ def update():
                 # TODO: verify successful write to db before deleting unverified database entry
                 print("image added to verified, delete from unverified")
                 delete_unverified(con, _filename)
+                msg = _filename_base + " verified! matched previously entered values. removed from unverified and added verified database" 
             else:
                 cur.execute('UPDATE apex_images SET verify_pos_x=?, verify_pos_y=?, verify_pos_z=? WHERE filename_base=?', [_pos_x, _pos_y, _pos_z, _filename_base])
+                msg = _filename_base + "  XYZ: " + _pos_x + ", " +_pos_z + ", " + _pos_z + " user values added to db to verify"
             con.commit()
             con.close()
-            msg = _filename + ": user values added to db to verify"
+            
         except sql.Error as error:
             msg = "ERROR: " + _filename + " - user input values not added to databases due to: " + error
             print("error while updating databases with user input data", error)
