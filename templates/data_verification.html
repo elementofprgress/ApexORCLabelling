@@ -1,52 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <style>
-        .tab {
-            display: inline-block;
-            margin-left: 10px;
-        }
-        .tab-50 {
-            display: inline-block;
-            margin-left: 50px;
-        }
-    </style>
-</head>
-<body>
-    <form autocomplete="off" action = "{{ url_for('update') }}" method = "POST">
-        <h3>Data Verification</h3>
-        filename: {{data["img_name"]}}<br><br>
-        Pos X: <input type = "text" name = "_pos_x" /><br>
-        Pos Y :  <input type = "text" name = "_pos_y" /><br>
-        Pos Z :  <input type = "text" name = "_pos_z" /><br><br>
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+        <style>
+            .sym-body {
+                background: #191919;
+                color: #F0F0F0;
+                font-family: "Arial", sans-serif;
+                margin-left: 70%;
+            }
+            .sym-body a {
+                color: #A9D852;
+            }
+            .selectorContainer {
+                display: inline-block;
+                position: absolute;
+                margin-top: -2px;
+                margin-left: 75px;
+            }
+            .selectorContainer_button {
+                padding: 8px 15px;
+                background: #222;
+                border: 2px solid #666;
+                color: #FF9000;
+                {#width: 345px;#}
+                {#height: 145px;#}
+            }
+            .sym-btn button {
+                color: #A9D852;
+            }
+            .sym-colors{
+                color: #FF9000;
+                border-left: 2px solid #A9D852;
+                background-color: #88bb2a;
+                background-color: #496822;
+                background: #B0B0B0;
+                background: #191919;
+                color: #F0F0F0;
+            }
+            .cropped_img {
+                border-color: #FF9000;
+                border-width: 2px;
+                border-style: solid;
+                outline: #88bb2a solid 3px;
+                margin: 10px -55px;
+            }
+            .cropped_img img {
+                height: 28px;
+            }
+            .form_inputs {
+                display: inline-block;
+                padding: 2px;
+                margin-left: 25px;
+            }
+            .form_inputs_x{
+                display: inline-block;
+                padding: 4px;
+                margin-left: 27px;
+            }
+            .form_inputs_z{
+                display: inline-block;
+                padding: 4px;
+                margin-left: 24px;
+                margin-bottom: 10px;
+            }
+            .form_body {
+                margin-left: 5%;
+            }
+        </style>
+    </head>
+    <body class="sym-body">
+        <form class="form_body" autocomplete="off" action = "{{ url_for('update') }}" method = "POST">
+            <h3>Data Verification</h3>
+            filename: {{data["img_name"]}}<br><br>
+            <span class="form_inputs_x">Pos X: <input type = "text" name = "_pos_x" /></span><br>
+            <span class="form_inputs">Pos Y :  <input type = "text" name = "_pos_y" /></span><br>
+            <span class="form_inputs_z">Pos Z :  <input type = "text" name = "_pos_z" /></span><br>
 
-        <input type = "submit" value = "submit" />
 
-        <br><br>
 
-{#          guessed / previously entered value:#}
-{#          <h3 style="margin-top:0px; margin-bottom:0px;">#}
-{#              POS:<span class="tab"></span>{{data["pos_x_data"]}} {{data["pos_y_data"]}} {{data["pos_z_data"]}}#}
-{#              <span class="tab-50"></span><input type = "submit" value = "Correct" />#}
-{#          </h3>#}
-        <img src="{{ url_for('static', filename='images/') }}{{ data['img_src']}}" alt="image load failed: skip">
-        <br>
-        <br>
-        <br>
-        <br>
-        <button><a href = "\apex">skip</a></button>
-        <br>
-{#        disabled inputs with default values to pass on img_data to cross-reference and move to verified if valid#}
-        <input style="display: inline" type = "hidden" name = "_filename" value="{{data["img_filename"]}}" />
-        <input style="display: inline" type = "hidden" name = "_fname" value="{{data["img_name"]}}" /><br>
-        <input style="display: inline" type = "hidden" name = "orig_pos_x" value="{{data["orig_pos_x"]}}" /><br>
-        <input style="display: inline" type = "hidden" name = "orig_pos_y" value="{{data["orig_pos_y"]}}" /><br>
-        <input style="display: inline" type = "hidden" name = "orig_pos_z" value="{{data["orig_pos_z"]}}" /><br>
-        <input style="display: inline" type = "hidden" name = "pos_x_verified" value="{{data["pos_x_verified"]}}" /><br>
-        <input style="display: inline" type = "hidden" name = "pos_y_verified" value="{{data["pos_y_verified"]}}" /><br>
-        <input style="display: inline" type = "hidden" name = "pos_z_verified" value="{{data["pos_z_verified"]}}" /><br>
-    </form>
-</body>
+    {#          guessed / previously entered value:#}
+    {#          <h3 style="margin-top:0px; margin-bottom:0px;">#}
+    {#              POS:<span class="tab"></span>{{data["pos_x_data"]}} {{data["pos_y_data"]}} {{data["pos_z_data"]}}#}
+    {#              <span class="tab-50"></span><input type = "submit" value = "Correct" />#}
+    {#          </h3>#}
+            <span class="cropped_img"><img src="{{ url_for('static', filename='images/') }}{{ data['img_src']}}" alt="image load failed: skip"></span>
+            <span class="selectorContainer"><input class="selectorContainer_button" type = "submit" value = "submit" /></span>
+            <br>
+            <br>
+            <br>
+            <br>
+            <span class="selectorContainer"><button class="selectorContainer_button"><a href = "\apex">skip</a></button></span>
+
+            <br>
+    {#        disabled inputs with default values to pass on img_data to cross-reference and move to verified if valid#}
+            <input style="display: inline" type = "hidden" name = "_filename" value="{{data["img_filename"]}}" />
+            <input style="display: inline" type = "hidden" name = "_fname" value="{{data["img_name"]}}" /><br>
+            <input style="display: inline" type = "hidden" name = "orig_pos_x" value="{{data["orig_pos_x"]}}" /><br>
+            <input style="display: inline" type = "hidden" name = "orig_pos_y" value="{{data["orig_pos_y"]}}" /><br>
+            <input style="display: inline" type = "hidden" name = "orig_pos_z" value="{{data["orig_pos_z"]}}" /><br>
+            <input style="display: inline" type = "hidden" name = "pos_x_verified" value="{{data["pos_x_verified"]}}" /><br>
+            <input style="display: inline" type = "hidden" name = "pos_y_verified" value="{{data["pos_y_verified"]}}" /><br>
+            <input style="display: inline" type = "hidden" name = "pos_z_verified" value="{{data["pos_z_verified"]}}" /><br>
+        </form>
+    </body>
 </html>

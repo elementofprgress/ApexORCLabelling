@@ -31,7 +31,7 @@ def populateDatabase():
             print("sqlite connection is closed")
 
 
-# create a database and table for unverified images data
+# create a database and table for unverified images_test data
 try:
     sqliteConnection = sqlite3.connect('images_database.db')
     sqlite_create_table_query = '''CREATE TABLE apex_images (
@@ -56,7 +56,7 @@ finally:
         sqliteConnection.close()
         print("sqlite connection is closed")
 
-# create a database table for verified images that contains their old file name and new file name based on verified cords
+# create a database table for verified images_test that contains their old file name and new file name based on verified cords
 try:
     sqliteConnection = sqlite3.connect('images_database.db')
     sqlite_create_table_query = '''CREATE TABLE verified_apex_images (
